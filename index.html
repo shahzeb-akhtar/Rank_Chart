@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>Rank Chart</title>
+		<style>
+		</style>
+		<script src="js/d3-v4.js"></script>	
+		<script src="data/data.js"></script>
+		<script src="js/RankChart.js"></script>	
+	</head>
+	<body>
+		<div id="chart" style="width:100%; height:100%"></div>
+		<!--script>
+			// used from server
+			d3.csv("data/data.csv", function(data){
+				console.log(data);
+			});
+		</script-->
+		
+		<script>
+			RankChart(d3.select('#chart'), data, "Big big big title tile tiel title title title title title title title");
+		</script>
+	</body>
+</html>
