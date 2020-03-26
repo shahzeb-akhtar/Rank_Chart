@@ -112,7 +112,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	}
 	
 	function namesMouseOver(d){
-		svgElem.selectAll("g").each(function(dIn, di){
+		svgElem.selectAll("g.viz_g").each(function(dIn, di){
 			if(dIn.name === d.name){
 				d3.select(this).raise()
 					.style("opacity", 1);
@@ -129,7 +129,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	}
 	
 	function namesMouseOut(d){
-		svgElem.selectAll("g").each(function(dIn, di){
+		svgElem.selectAll("g.viz_g").each(function(dIn, di){
 			d3.select(this).style("opacity", 0.7);
 			d3.select(this).selectAll(".hidden_text").style("display", "none");
 		});
@@ -137,13 +137,14 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	}
 	
 	function createChart(){
-		let strokeWidth = (hSvg*0.1)/latestTopNamesArr.length;
-		let circleStrokeWidth = (hSvg*0.02)/latestTopNamesArr.length;
-		let rectHeight = hSvg/(latestTopNamesArr.length * 3);
+		let strokeWidth = (hSvg*0.15)/latestTopNamesArr.length;
+		let circleStrokeWidth = strokeWidth/5;
+		let rectHeight = hSvg/(latestTopNamesArr.length * 2.5);
 		let fontSize = hSvg/40;
 		svgElem = divElement.append("svg").attr("width", wSvg).attr("height", hSvg);
 		latestTopNamesArr.forEach(function(tn, ti){
 			let g = svgElem.append("g")
+							.attr("class", "viz_g")
 							.datum({"name":tn})
 							.style("opacity", 0.7)
 							.on("mouseover", namesMouseOver)
@@ -235,6 +236,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 			let g = svgElem.append("g")
 							.datum({"name":on})
 							.style("opacity", 0.7)
+							.attr("class", "viz_g")
 							.on("mouseover", namesMouseOver)
 							.on("mouseout", namesMouseOver);
 							
@@ -264,7 +266,6 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		});
 		if(otherNamesArr.length > 0){
 			otherGElem = svgElem.append("g")
-								.datum({"name":""})
 								.style("display", "none");
 			
 			// append a hidden rectangle for other names
@@ -285,6 +286,11 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 					.style("font-size", fontSize)
 					.style("fill", "white");
 		}
+		// create axis
+		axisX = d3.axisBottom().scale(scaleX).tickFormat(d3.format("d"));
+		svgElem.append("g")
+				.attr("transform","translate(0,"+ (hSvg*(1 - marginPercent.bottom)) +")")
+				.call(axisX);
 	}
 	understandData();
 	resize();
