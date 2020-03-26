@@ -10,6 +10,8 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	let resizeTimer,
 		wSvg,
 		hSvg,
+		svgElem,
+		otherGElem,
 		latestTopNamesArr = [],
 		otherNamesArr = [],
 		years = [],
@@ -19,12 +21,13 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		scaleX = d3.scaleLinear(),
 		scaleY = d3.scaleLinear(),
 		parentResizeFunction,
-		marginPercent = {top:0.1, right:0.2, bottom:0.1, left:0.1};
-	
+		marginPercent = {top:0.005, right:0.25, bottom:0.1, left:0.025};
+		
+	const colors10 = d3.schemeCategory10;
 	const line = d3.line()
 					.defined(d => !isNaN(d[0]))
-					.x(d => scaleX(d[0]))
-					.y(d => scaleY(d[1]));
+					.x(d => d[0])
+					.y(d => d[1]);
 	
 	divElement.style('font-family', 'Helvetica');
 	
@@ -52,7 +55,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		
 		// calculate width and height of svg
 		wSvg = divElement.node().clientWidth;
-		hSvg = divElement.node().clientHeight - titleElement.node().clientHeight;
+		hSvg = divElement.node().clientHeight - titleElement.node().scrollHeight;
 		if(hSvg < 100){
 			hSvg = 100;
 		}
@@ -96,6 +99,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 				bottomRank = dd.Rank;
 			}
 		});
+		years.sort();
 		latestYear = d3.max(years);
 		latestTopNamesArr = yearWiseNames[latestYear];
 		allDataNames.forEach(function(dd, di){
@@ -107,20 +111,180 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		scaleY.domain([topRank - 0.5, bottomRank + 0.5]);
 	}
 	
+	function namesMouseOver(d){
+		svgElem.selectAll("g").each(function(dIn, di){
+			if(dIn.name === d.name){
+				d3.select(this).raise()
+					.style("opacity", 1);
+				d3.select(this).selectAll(".hidden_text").style("display", null);
+			}else{
+				d3.select(this).style("opacity", 0.1);
+			}
+		});
+		if(otherNamesArr.indexOf(d.name) >= 0){
+			// show name
+			otherGElem.select("text").text(d.name);
+			otherGElem.style("opacity", 1).style("display", null);
+		}
+	}
+	
+	function namesMouseOut(d){
+		svgElem.selectAll("g").each(function(dIn, di){
+			d3.select(this).style("opacity", 0.7);
+			d3.select(this).selectAll(".hidden_text").style("display", "none");
+		});
+		otherGElem.style("display", "none");
+	}
+	
 	function createChart(){
-		// create circles for all latest year name
-		let svgElem = divElement.append("svg").attr("width", wSvg).attr("height", hSvg);
+		let strokeWidth = (hSvg*0.1)/latestTopNamesArr.length;
+		let circleStrokeWidth = (hSvg*0.02)/latestTopNamesArr.length;
+		let rectHeight = hSvg/(latestTopNamesArr.length * 3);
+		let fontSize = hSvg/40;
+		svgElem = divElement.append("svg").attr("width", wSvg).attr("height", hSvg);
 		latestTopNamesArr.forEach(function(tn, ti){
-			years.forEach(function(ye, yi){
+			let g = svgElem.append("g")
+							.datum({"name":tn})
+							.style("opacity", 0.7)
+							.on("mouseover", namesMouseOver)
+							.on("mouseout", namesMouseOut);
+			
+			// create lines data
+			let linePoints = []
+			years.forEach(function(ye, yi, thisArr){
 				if(nameRankObj[tn][ye]){
-					svgElem.append("circle")
+					linePoints.push([scaleX(ye), scaleY(nameRankObj[tn][ye]['Rank'])]);
+					// for last year it will always exist for latest top name
+					if(yi === thisArr.length - 1){
+						// append rect for name
+						g.append("rect")
+							.attr("x", scaleX(ye))
+							.attr("y", scaleY(nameRankObj[tn][ye]['Rank']) - (rectHeight/2))
+							.attr("width", wSvg*0.95 - scaleX(ye))
+							.attr("height", rectHeight)
+							.attr("rx", rectHeight*0.1)
+							.style("fill", colors10[ti%10]);
+						
+						// append name
+						g.append("text")
+							.attr("x", scaleX(ye) + (rectHeight/2) + 5)
+							.attr("y", scaleY(nameRankObj[tn][ye]['Rank']))
+							.attr("text-anchor", "start")
+							.attr("dominant-baseline", "central")
+							.style("font-size", fontSize)
+							.text(tn);
+						
+						//append circle and rank
+						g.append("circle")
 							.attr("cx", scaleX(ye))
 							.attr("cy", scaleY(nameRankObj[tn][ye]['Rank']))
-							.attr("r", 5)
+							.attr("r", (rectHeight/2))
+							.attr("stroke", colors10[ti%10])
+							.attr("stroke-width", circleStrokeWidth)
+							.style("fill", "white");
+							
+						g.append("text")
+							.attr("x", scaleX(ye))
+							.attr("y", scaleY(nameRankObj[tn][ye]['Rank']))
+							.attr("text-anchor", "middle")
+							.attr("dominant-baseline", "central")
+							.style("font-size", fontSize)
+							.text(nameRankObj[tn][ye]['Rank']);
+					}else{
+						// append other circles
+						g.append("circle")
+							.attr("cx", scaleX(ye))
+							.attr("cy", scaleY(nameRankObj[tn][ye]['Rank']))
+							.attr("r", (rectHeight/3))
+							.attr("stroke", colors10[ti%10])
+							.attr("stroke-width", circleStrokeWidth)
+							.style("fill", "white");
+						
+						// other ranks which would normally be hidden					
+						g.append("text")
+							.attr("x", scaleX(ye))
+							.attr("y", scaleY(nameRankObj[tn][ye]['Rank']))
+							.attr("text-anchor", "middle")
+							.attr("dominant-baseline", "central")
+							.attr("class", "hidden_text")
+							.style("display", "none")
+							.style("font-size", fontSize)
+							.text(nameRankObj[tn][ye]['Rank']);	
+					}
+				}else{
+					linePoints.push(['no_data']);
 				}
 			});
+			
+			// append the line
+			g.append("path")
+			  .datum(linePoints)
+			  .attr("stroke", colors10[ti%10])
+			  .attr("stroke-width", strokeWidth)
+			  .attr("stroke-linecap","round")
+			  .attr("stroke-linejoin", "round")
+			  .attr("fill", "none")
+			  .attr("d", line);
+			  
+			// raise the circles and text
+			g.selectAll("circle").raise();
+			g.selectAll("text").raise();
 		});
 		
+		otherNamesArr.forEach(function(on, oi){
+			let g = svgElem.append("g")
+							.datum({"name":on})
+							.style("opacity", 0.7)
+							.on("mouseover", namesMouseOver)
+							.on("mouseout", namesMouseOver);
+							
+			years.forEach(function(ye, yi, thisArr){
+				if(nameRankObj[on][ye]){
+					// append other circles
+					g.append("circle")
+						.attr("cx", scaleX(ye))
+						.attr("cy", scaleY(nameRankObj[on][ye]['Rank']))
+						.attr("r", (rectHeight/3))
+						.attr("stroke", "black")
+						.attr("stroke-width", circleStrokeWidth)
+						.style("fill", "white");
+					
+					// other ranks which would normally be hidden					
+					g.append("text")
+						.attr("x", scaleX(ye))
+						.attr("y", scaleY(nameRankObj[on][ye]['Rank']))
+						.attr("text-anchor", "middle")
+						.attr("dominant-baseline", "central")
+						.attr("class", "hidden_text")
+						.style("display", "none")
+						.style("font-size", fontSize)
+						.text(nameRankObj[on][ye]['Rank']);	
+				}
+			});			
+		});
+		if(otherNamesArr.length > 0){
+			otherGElem = svgElem.append("g")
+								.datum({"name":""})
+								.style("display", "none");
+			
+			// append a hidden rectangle for other names
+			otherGElem.append("rect")
+							.attr("x", scaleX(d3.max(years)))
+							.attr("y", scaleY(bottomRank + 0.5) - (rectHeight/2))
+							.attr("width", wSvg*0.95 - scaleX(d3.max(years)))
+							.attr("height", rectHeight)
+							.attr("rx", rectHeight*0.1)
+							.style("fill", "black");
+						
+			// append name
+			otherGElem.append("text")
+					.attr("x", scaleX(d3.max(years)) + (rectHeight/2) + 5)
+					.attr("y", scaleY(bottomRank + 0.5))
+					.attr("text-anchor", "start")
+					.attr("dominant-baseline", "central")
+					.style("font-size", fontSize)
+					.style("fill", "white");
+		}
 	}
 	understandData();
 	resize();
