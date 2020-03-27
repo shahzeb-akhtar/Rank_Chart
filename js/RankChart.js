@@ -130,7 +130,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	
 	function namesMouseOut(d){
 		svgElem.selectAll("g.viz_g").each(function(dIn, di){
-			d3.select(this).style("opacity", 0.7);
+			d3.select(this).style("opacity", 0.8);
 			d3.select(this).selectAll(".hidden_text").style("display", "none");
 		});
 		otherGElem.style("display", "none");
@@ -146,7 +146,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 			let g = svgElem.append("g")
 							.attr("class", "viz_g")
 							.datum({"name":tn})
-							.style("opacity", 0.7)
+							.style("opacity", 0.8)
 							.on("mouseover", namesMouseOver)
 							.on("mouseout", namesMouseOut);
 			
@@ -235,7 +235,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		otherNamesArr.forEach(function(on, oi){
 			let g = svgElem.append("g")
 							.datum({"name":on})
-							.style("opacity", 0.7)
+							.style("opacity", 0.8)
 							.attr("class", "viz_g")
 							.on("mouseover", namesMouseOver)
 							.on("mouseout", namesMouseOver);
