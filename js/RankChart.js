@@ -3,7 +3,7 @@ Creates an interactive Rank Chart
 	inputs:
 		divElement - d3 selection of div in which to creat chart
 		dataArr - data to be charted
-			'Year', 'Rank', and 'Data' are required columns. 'Value' column can also be present
+			'Year', 'Rank', and 'Name' are required columns. 'Value' column can also be present
 		title - Title for the chart
 */
 function RankChart(divElement, dataArr, title = 'Rank Chart'){
@@ -77,23 +77,23 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 			if(years.indexOf(dd.Year) < 0){
 				years.push(dd.Year);
 			}
-			if(allDataNames.indexOf(dd.Data) < 0){
-				allDataNames.push(dd.Data);
+			if(allDataNames.indexOf(dd.Name) < 0){
+				allDataNames.push(dd.Name);
 			}
 			if(!yearWiseNames[dd.Year]){
-				yearWiseNames[dd.Year] = [dd.Data];
+				yearWiseNames[dd.Year] = [dd.Name];
 			}else{
-				yearWiseNames[dd.Year].push(dd.Data);
+				yearWiseNames[dd.Year].push(dd.Name);
 			}
 			obj = {'Rank':dd.Rank}
 			if(dd.Value){
 				obj['Value'] = dd.Value;
 			}
-			if(!nameRankObj[dd.Data]){
-				nameRankObj[dd.Data] = {};
-				nameRankObj[dd.Data][dd.Year] = obj
+			if(!nameRankObj[dd.Name]){
+				nameRankObj[dd.Name] = {};
+				nameRankObj[dd.Name][dd.Year] = obj
 			}else{
-				nameRankObj[dd.Data][dd.Year] = obj
+				nameRankObj[dd.Name][dd.Year] = obj
 			}
 			if(dd.Rank > bottomRank){
 				bottomRank = dd.Rank;
