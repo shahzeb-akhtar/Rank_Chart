@@ -49,18 +49,24 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	function resize(){
 		// remove previous chart, if any
 		divElement.selectAll("*").remove();
+		let w = divElement.node().clientWidth,
+			h = divElement.node().clientHeight;
 		
 		// append title
-		let titleElement = divElement.append("h2").text(title);
+		let titleElement = divElement.append("h2").style("font-size", (h/25)).text(title);
 		
 		// calculate width and height of svg
-		wSvg = divElement.node().clientWidth;
-		hSvg = divElement.node().clientHeight - titleElement.node().scrollHeight;
+		wSvg = w;
+		hSvg = h - titleElement.node().scrollHeight;
+
+		if(wSvg < 100){
+			wSvg = 100;
+		}
 		if(hSvg < 100){
 			hSvg = 100;
 		}
-		if(wSvg < 100){
-			wSvg = 100;
+		if(hSvg > wSvg){
+			hSvg = wSvg;
 		}
 		scaleX.range([marginPercent.left*wSvg, wSvg - (marginPercent.right*wSvg)]);
 		scaleY.range([marginPercent.top*hSvg, hSvg - (marginPercent.bottom*hSvg)]);
@@ -289,6 +295,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		// create axis
 		axisX = d3.axisBottom().scale(scaleX).tickFormat(d3.format("d"));
 		svgElem.append("g")
+				.style("font-size", fontSize)
 				.attr("transform","translate(0,"+ (hSvg*(1 - marginPercent.bottom)) +")")
 				.call(axisX);
 	}
