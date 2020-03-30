@@ -24,8 +24,8 @@
 <p id="head3"> <h2> Directory structure </h2> </p>
 
 
-<p id="head4> <h2> Usage </a>
+<p id="head4"> <h2> Usage </h2> </p>
 
-<p id="head5> <h2> Author </a>
+<p id="head5"> <h2> Author </h2> </p>
        
-<p id="head6"> h2> License </a>
+<p id="head6"> h2> License </h2> </p>
