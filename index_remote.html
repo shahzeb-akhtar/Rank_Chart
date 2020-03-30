@@ -10,6 +10,7 @@
 		<div id="chart" style="width:95%; height:95%"></div>
 		<script>
 			d3.csv("data/data.csv", function(data){
+				console.log(data);
 				RankChart(d3.select('#chart'), data, "Top Programming Languages - Trend");
 			});
 		</script>
