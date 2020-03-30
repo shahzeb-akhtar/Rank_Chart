@@ -15,7 +15,7 @@
 <h2 id="head1"> Description of the project </h2>
 
 
-<h2 id="head2> Libraries used </h2>
+<h2 id="head2"> Libraries used </h2>
 
 <ul>
  <li> d3.js
@@ -24,7 +24,7 @@
 <h2 id="head3"> Directory structure </h2>
 
 
-<h2 id="head4> Usage </h2>
+<h2 id="head4"> Usage </h2>
 
 <h2 id="head5"> Author </h2>
        
