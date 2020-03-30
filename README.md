@@ -28,4 +28,4 @@
 
 <p id="head5"> <h2> Author </h2> </p>
        
-<p id="head6"> h2> License </h2> </p>
+<p id="head6"> <h2> License </h2> </p>
