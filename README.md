@@ -1,4 +1,5 @@
-# Create a ranking chart
+# Create a Rank Chart
+This project creates an interactive rank chart
 
 ## Table of Contents
 <ol>
@@ -13,7 +14,13 @@
 
 
 <h2 id="head1"> Description of the project </h2>
-
+Given JSON array of object with the following properties, it creates an interactive rank chart:
+<ul>
+   <li>Year
+   <li>Name
+   <li>Rank
+   <li>Value
+</ul>
 
 <h2 id="head2"> Libraries used </h2>
 
