@@ -46,9 +46,7 @@ Given JSON array of object with the following properties, it creates an interact
 ```
 
 <h2 id="head4"> Usage </h2>
-To create any rank chart update the JSON data in data.js and open index.html file
-
-## Interaction
+To create any rank chart update the JSON data in data.js and open index.html file.
 On mouseover a particular line or circle for a name - trend for that names gets highlighted, while other trends gets faded away. Also, ranks for all years show up in circles
 
 <h2 id="head5"> Author </h2>
@@ -56,3 +54,4 @@ Shahzeb Akhtar
 https://www.linkedin.com/in/shahzebakhtar/
 
 <h2 id="head6"> License </h2>
+MIT License
