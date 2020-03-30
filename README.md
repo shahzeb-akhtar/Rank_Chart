@@ -29,6 +29,7 @@ Given JSON array of object with the following properties, it creates an interact
 </ul>
 
 <h2 id="head3"> Directory structure </h2>
+
 ```
 .
 ├── data                                                    # Folder to hold data files
