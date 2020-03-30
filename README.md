@@ -10,4 +10,15 @@
 
 
 <p id="head1"> <h2> Description of the project </h2></p>
-Clone the repository into your local machine by typing the command
+
+
+<p id="head2"> <h2> Libraries used </h2> </p>
+
+<ul>
+ <li> d3.js
+</ul>
+
+<p id="head3"> <h2> Usage </h2> </p>
+
+
+<p id="head4> <h2> Author </a>
