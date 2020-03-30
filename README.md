@@ -12,20 +12,20 @@
 
 
 
-<p id="head1"> <h2> Description of the project </h2></p>
+<h2 id="head1"> Description of the project </h2>
 
 
-<p id="head2"> <h2> Libraries used </h2> </p>
+<h2 id="head2> Libraries used </h2>
 
 <ul>
  <li> d3.js
 </ul>
 
-<p id="head3"> <h2> Directory structure </h2> </p>
+<h2 id="head3"> Directory structure </h2>
 
 
-<p id="head4"> <h2> Usage </h2> </p>
+<h2 id="head4> Usage </h2>
 
-<p id="head5"> <h2> Author </h2> </p>
+<h2 id="head5"> Author </h2>
        
-<p id="head6"> <h2> License </h2> </p>
+<h2 id="head6"> License </h2>
