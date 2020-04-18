@@ -132,6 +132,9 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 			otherGElem.select("text").text(d.name);
 			otherGElem.style("opacity", 1).style("display", null);
 		}
+		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+			setTimeout(namesMouseOut, 5000);
+		}
 	}
 	
 	function namesMouseOut(d){
