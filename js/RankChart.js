@@ -8,7 +8,9 @@ Creates an interactive Rank Chart
 */
 function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	let resizeTimer,
+		mouseTimer,
 		wSvg,
+		isMobile = false,
 		hSvg,
 		svgElem,
 		otherGElem,
@@ -22,7 +24,9 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		scaleY = d3.scaleLinear(),
 		parentResizeFunction,
 		marginPercent = {top:0.005, right:0.25, bottom:0.1, left:0.025};
-		
+	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		isMobile = true;
+	}	
 	const colors10 = d3.schemeCategory10;
 	const line = d3.line()
 					.defined(d => !isNaN(d[0]))
@@ -118,6 +122,9 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	}
 	
 	function namesMouseOver(d){
+		if(isMobile && mouseTimer){
+			clearTimeout(mouseTimer);
+		}
 		svgElem.selectAll("g.viz_g").each(function(dIn, di){
 			if(dIn.name === d.name){
 				d3.select(this).raise()
@@ -132,9 +139,9 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 			otherGElem.select("text").text(d.name);
 			otherGElem.style("opacity", 1).style("display", null);
 		}
-		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-			setTimeout(namesMouseOut, 5000);
-		}
+		if(isMobile){
+			mouseTimer = setTimeout(namesMouseOut, 2000);
+		}		
 	}
 	
 	function namesMouseOut(d){
