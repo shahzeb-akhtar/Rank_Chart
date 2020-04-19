@@ -157,6 +157,14 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		let circleStrokeWidth = strokeWidth/5;
 		let rectHeight = hSvg/(latestTopNamesArr.length * 2.5);
 		let fontSize = hSvg/40;
+		
+		if(fontSize > 24){
+			fontSize = 24;
+		}
+		if(fontSize < 6){
+			fontSize = 6;
+		}
+		
 		svgElem = divElement.append("svg").attr("width", wSvg).attr("height", hSvg);
 		latestTopNamesArr.forEach(function(tn, ti){
 			let g = svgElem.append("g")
