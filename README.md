@@ -8,7 +8,6 @@ This project creates an interactive rank chart
    <li><a href="#head3"> Directory structure </a>
    <li><a href="#head4"> Usage </a>
    <li><a href="#head5"> Author </a>
-   <li><a href="#head6"> License </a>
 </ol>
 
 
