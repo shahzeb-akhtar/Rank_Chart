@@ -136,6 +136,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	}
 	
 	function namesMouseOut(d){
+		console.log('mouseout');
 		svgElem.selectAll("g.viz_g").each(function(dIn, di){
 			d3.select(this).style("opacity", 0.8);
 			d3.select(this).selectAll(".hidden_text").style("display", "none");
@@ -253,7 +254,7 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 							.style("opacity", 0.8)
 							.attr("class", "viz_g")
 							.on("mouseover", namesMouseOver)
-							.on("mouseout", namesMouseOver);
+							.on("mouseout", namesMouseOut);
 							
 			years.forEach(function(ye, yi, thisArr){
 				if(nameRankObj[on][ye]){
