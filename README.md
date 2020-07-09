@@ -53,7 +53,7 @@ Below is sample invocation and corresponding chart.
 
 `RankChart(d3.select('#chart'), data, "Top Programming Languages - Trend");`
 
-![rank_chart](screen_shots/rank_chart)
+![rank_chart](screen_shots/rank_chart.png)
 
 <h2 id="head5"> Author </h2>
 
