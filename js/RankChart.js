@@ -22,7 +22,6 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 		bottomRank = 0,
 		scaleX = d3.scaleLinear(),
 		scaleY = d3.scaleLinear(),
-		parentResizeFunction,
 		marginPercent = {top:0.005, right:0.25, bottom:0.1, left:0.025};
 	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 		isMobile = true;
@@ -35,19 +34,11 @@ function RankChart(divElement, dataArr, title = 'Rank Chart'){
 	
 	divElement.style('font-family', 'Helvetica');
 	
-	// check if there is already a resize function
-	if(d3.select(window).on('resize')){
-		parentResizeFunction = d3.select(window).on('resize');
-	}
-	
 	d3.select(window).on('resize', function(){
 		if(resizeTimer){
 			clearTimeout(resizeTimer);
 		}
 		resizeTimer = setTimeout(resize, 100);
-		if(parentResizeFunction){
-			parentResizeFunction();
-		}
 	});
 	
 	function resize(){
