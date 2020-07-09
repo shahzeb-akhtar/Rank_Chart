@@ -43,8 +43,17 @@ Given JSON array of object with the following properties, it creates an interact
 ```
 
 <h2 id="head4"> Usage </h2>
-To create any rank chart update the JSON data in data.js and open index.html file.
-On mouseover a particular line or circle for a name - trend for that names gets highlighted, while other trends gets faded away. Also, ranks for all years show up in circles
+
+In the HTML page:
+1. Include d3.js file
+2. Include RankChart.js file
+3. Invoke the RankChart method, passing in the d3 selection of div element to hold the chart, data array, and title. The objects in data array must have the 'Year', 'Rank', and 'Name' attributes. 'Value' attribute is optional.
+
+Below is sample invocation and corresponding chart.
+
+`RankChart(d3.select('#chart'), data, "Top Programming Languages - Trend");`
+
+![rank_chart](screen_shots/rank_chart)
 
 <h2 id="head5"> Author </h2>
 
