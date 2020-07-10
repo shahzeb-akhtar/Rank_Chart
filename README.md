@@ -37,6 +37,8 @@ Given JSON array of object with the following properties, it creates an interact
 ├── js                                                      # Folder to hold JS files
     ├── d3-v4.js                                            # d3 v4 file
     ├── RankChart.js                                        # Main JS code for rank chart creation
+├── screen_shots                                            # Folder to hold screen shots
+    ├── rank_chart.png                                      # Screen shot of created rank chart
 ├── index.html                                              # Index HTML file
 ├── README.md                                               # ReadMe file
 
